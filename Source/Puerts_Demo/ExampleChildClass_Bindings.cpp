@@ -1,0 +1,1 @@
+#include "ExampleChildClass_Bindings.h"
