@@ -1,6 +1,11 @@
 {
+    "D:/Projects/Puerts_Demos/TypeScript/Entry.ts": {
+        "version": "e3bbb33d624840af026f84e11a6d7d6d",
+        "processed": true,
+        "isBP": false
+    },
     "D:/Projects/Puerts_Demos/TypeScript/TS_Player.ts": {
-        "version": "391abea44678e29c51c0387afacc244b",
+        "version": "1356856d8d4d185c3a9cfe572ae701b2",
         "processed": true,
         "isBP": true
     },
@@ -25,7 +30,7 @@
         "processed": false
     },
     "D:/Projects/Puerts_Demos/Typing/ue/ue.d.ts": {
-        "version": "3e4be5655bde74841dab5887330f915c",
+        "version": "10f5ad4b16a939d785836410e1adf4d8",
         "processed": false
     },
     "D:/Projects/Puerts_Demos/Typing/ue/puerts_decorators.d.ts": {
@@ -33,7 +38,7 @@
         "processed": false
     },
     "D:/Projects/Puerts_Demos/Typing/ue/ue_bp.d.ts": {
-        "version": "d50106816b53867e5c9ee11eb4b26055",
+        "version": "94d75364121b94ab42ff2dacd504a24e",
         "processed": false
     },
     "D:/Projects/Puerts_Demos/Content/JavaScript/PuertsEditor/node_modules/typescript/lib/lib.esnext.full.d.ts": {

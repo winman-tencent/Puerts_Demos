@@ -1,0 +1,17 @@
+{
+    "configurations": 
+    [
+    {
+        "type": "node",
+        "name": "Puerts Manual Mode Debugger",
+        "port": 8080,
+        "request": "attach",
+    },
+    {
+        "type": "node",
+        "name": "Puerts Automatic Binding Mode",
+        "port": 1337,
+        "request": "attach",
+    }
+    ]
+}

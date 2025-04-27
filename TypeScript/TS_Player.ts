@@ -6,7 +6,7 @@ class TS_Player extends UE.Character {
     }
 
     ReceiveBeginPlay(): void {
-        //...
+        console.warn("TS_Player::BeginPlay()");
     }
     ReceiveTick(InDeltaSeconds: number): void {
         //...
