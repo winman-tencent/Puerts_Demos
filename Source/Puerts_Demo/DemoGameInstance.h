@@ -15,7 +15,7 @@ public:
 		Super::OnStart();
 		JsEnv = MakeShared<puerts::FJsEnv>();
 
-		JsEnv->Start("MixinExample.js", 
+		JsEnv->Start("Entry.js", 
 		{
 			TPair<FString, UObject*>("GameInstance", this)
 		});
