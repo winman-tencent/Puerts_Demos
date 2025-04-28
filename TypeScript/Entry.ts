@@ -47,3 +47,17 @@ import {toManualReleaseDelegate, releaseManualReleaseDelegate} from 'puerts';
 const NewManualReleaseDelegate = toManualReleaseDelegate(PrintHelloWorld); // toManualReleaseDelegate(Func:Function)
 DemoActor.PassJsFunctionAsDelegate(NewManualReleaseDelegate);
 releaseManualReleaseDelegate(PrintHelloWorld); // Release to prevent memory leak
+
+// Using JsObject Types
+let John = {BirthYear:1999, Age: -1};
+UE.DemoActor.CalculateAge(John);
+console.warn("John is aged " + John.Age);
+
+UE.DemoActor.ExecuteJsFunctionObject(() => {
+    return 1337;
+});
+
+// Binding To std::function
+UE.DemoActor.PassJsFunctionWithStd((InA: number, InB: number) => {
+    return InA + InB;
+});

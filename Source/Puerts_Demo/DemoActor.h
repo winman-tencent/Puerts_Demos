@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "JsObject.h"
 #include "GameFramework/Actor.h"
 #include "DemoActor.generated.h"
 
@@ -41,6 +42,25 @@ public:
 	void PassJsFunctionAsDelegate(FBasicNotify Callback)
 	{
 		Callback.ExecuteIfBound();
+	}
+
+	UFUNCTION()
+	static void CalculateAge(FJsObject InPerson)
+	{
+		const int BirthYear = InPerson.Get<int>("BirthYear");
+		InPerson.Set<int>("Age", 2025 - BirthYear);
+	}
+
+	UFUNCTION()
+	static void ExecuteJsFunctionObject(FJsObject InJsFunctionObject)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ADemoActor:ExecuteJsFunctionObject() = %i"), InJsFunctionObject.Func<int>());
+	}
+	
+	static void PassJsFunctionWithStd(std::function<int(int, int)> InFunction)
+	{
+		int ReturnValue = InFunction(88, 99);
+		UE_LOG(LogTemp, Warning, TEXT("ADemoActor:PassJsFunctionWithStd() | 89 + 99 = %i"), ReturnValue);
 	}
 
 public:
