@@ -1,12 +1,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DemoActor.h"
 #include "Engine/GameInstance.h"
 #include "JsEnv.h"
 #include "DemoGameInstance.generated.h"
 
 UCLASS()
-class PUERTS_DEMO_API UDemoGameInstance : public UGameInstance
+class UDemoGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 	
@@ -15,10 +16,14 @@ public:
 		Super::OnStart();
 		JsEnv = MakeShared<puerts::FJsEnv>();
 
-		JsEnv->Start("MixinExample.js", 
+		auto DemoActor = GetWorld()->SpawnActorDeferred<ADemoActor>(ADemoActor::StaticClass(), FTransform::Identity);
+		
+		JsEnv->Start("Entry.js", 
 		{
-			TPair<FString, UObject*>("GameInstance", this)
+			TPair<FString, UObject*>("DemoActor", DemoActor)
 		});
+
+		DemoActor->FinishSpawning(FTransform::Identity);
 	}
 
 	virtual void Shutdown() override {
