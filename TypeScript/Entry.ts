@@ -1,24 +1,84 @@
 import * as UE from 'ue'
-import * as Cpp from 'cpp'
-import { argv } from "puerts";
+import * as Puerts from 'puerts'
 
-console.warn("JavaScript Entry Point Started!");
-
-const GameInstance = argv.getByName("GameInstance") as UE.GameInstance;
+const GameInstance = Puerts.argv.getByName("GameInstance") as UE.GameInstance;
 const World = GameInstance?.GetWorld();
 
-console.warn("Static Int = " + Cpp.ExampleClass.StaticInt);
+//
+// Mixin With C++ Class
+//
+{
+    interface ExtendedMixinActor extends UE.ExampleMixinActor {};
+    class ExtendedMixinActor implements ExtendedMixinActor {
+        ExampleFunction(): void 
+        {
+            console.warn("ExtendedMixinActor::ExampleFunction() Executed");
+        }
+    }
 
-const AddedResult = Cpp.ExampleClass.StaticAdd(12, 34);
-console.warn("StaticAdd(12, 34) = " + AddedResult);
+    // Generate The Mixin Class
+    const GeneratedClass = Puerts.blueprint.mixin(UE.ExampleMixinActor, ExtendedMixinActor, {
+        inherit: true // 'true' generated a new class object instead of applying mixin globally
+    }).StaticClass();
 
-const ExampleClass = new Cpp.ExampleClass();
-console.warn("GetRegularInt() = " + ExampleClass?.GetRegularInt());
-console.warn("RegularInt = " + ExampleClass?.RegularInt);
+    // Spawn the actor from mixin class
+    const SpawnedActor = UE.GameplayStatics.BeginDeferredActorSpawnFromClass(World, GeneratedClass, UE.Transform.Identity) as ExtendedMixinActor;
+    UE.GameplayStatics.FinishSpawningActor(SpawnedActor, UE.Transform.Identity);
 
-const ExampleBaseClass = new Cpp.ExampleBaseClass();
-console.warn("Base VirtualMemberFunction() = " + ExampleBaseClass?.VirtualMemberFunction());
+    SpawnedActor?.ExampleFunction();
+}
 
-const ExampleChildClass = new Cpp.ExampleChildClass();
-console.warn("Child VirtualMemberFunction() = " + ExampleChildClass?.VirtualMemberFunction());
+//
+// Mixin With Blueprint Class
+//
+{
+    interface ExtendedMixinBlueprint extends UE.Game.ExampleMixinBlueprint.ExampleMixinBlueprint_C {};
+    class ExtendedMixinBlueprint implements ExtendedMixinBlueprint {
+        ExampleBlueprintFunction(): void {
+            console.warn("ExtendedMixinBlueprint::ExampleBlueprintFunction() Executed");
+        }
+    }
+    
+    // Load In The Class To Extend
+    let BlueprintClass = UE.Class.Load('/Game/ExampleMixinBlueprint.ExampleMixinBlueprint_C');
+    const InterperatedBlueprintClass = Puerts.blueprint.tojs(BlueprintClass);
 
+    // Generate The Mixin Class
+    const GeneratedClass = Puerts.blueprint.mixin(InterperatedBlueprintClass, ExtendedMixinBlueprint, {
+        inherit: true // 'true' generated a new class object instead of applying mixin globally
+    }).StaticClass();
+
+    // Spawn the actor from mixin class
+    const SpawnedActor = UE.GameplayStatics.BeginDeferredActorSpawnFromClass(World, GeneratedClass, UE.Transform.Identity) as ExtendedMixinBlueprint;
+    UE.GameplayStatics.FinishSpawningActor(SpawnedActor, UE.Transform.Identity);
+    
+    SpawnedActor?.ExampleBlueprintFunction();
+}
+
+//
+// Mixin with `Super` keyword
+//
+{
+    interface ExampleMixinActor extends UE.ExampleMixinActor {};
+    class ExampleMixinActor implements ExampleMixinActor {}
+    Object.setPrototypeOf(ExampleMixinActor.prototype, UE.ExampleMixinActor.prototype);
+
+    class ExtendedMixinActor extends ExampleMixinActor {
+        ExampleFunction(): void 
+        {
+            console.warn("ExtendedMixinActor: Attempting to call Super.ExampleFunction()");
+            super.ExampleFunction();
+        }
+    }
+
+    // Generate The Mixin Class
+    const GeneratedClass = Puerts.blueprint.mixin(UE.ExampleMixinActor, ExtendedMixinActor, {
+        inherit: true // 'true' generated a new class object instead of applying mixin globally
+    }).StaticClass();
+
+    // Spawn the actor from mixin class
+    const SpawnedActor = UE.GameplayStatics.BeginDeferredActorSpawnFromClass(World, GeneratedClass, UE.Transform.Identity) as ExtendedMixinActor;
+    UE.GameplayStatics.FinishSpawningActor(SpawnedActor, UE.Transform.Identity);
+
+    SpawnedActor?.ExampleFunction();
+}
