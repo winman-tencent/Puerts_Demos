@@ -1,11 +1,5 @@
 import * as UE from 'ue'
 import * as Cpp from 'cpp'
-import { argv } from "puerts";
-
-console.warn("JavaScript Entry Point Started!");
-
-const GameInstance = argv.getByName("GameInstance") as UE.GameInstance;
-const World = GameInstance?.GetWorld();
 
 console.warn("Static Int = " + Cpp.ExampleClass.StaticInt);
 
